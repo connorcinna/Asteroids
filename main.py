@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 
-player_ship = ship.ship((255, 255, 255),data.center)
+player_ship = ship.ship(data.center)
 
 def redrawWindow(surface):
 	surface.fill((0,0,0))
@@ -16,9 +16,6 @@ def redrawWindow(surface):
 	#asteroid.draw(surface)
 	pygame.display.update()
 
-
-def spawn_asteroid():
-	pass
 
 def message_box(subject, content):
 	pass
@@ -30,22 +27,25 @@ def main():
 	flag = True
 	clock = pygame.time.Clock() 
 	bullets = []
+	asteroids = []
 	while flag: #main game loop
 		for event in pygame.event.get():  #event loop
 			if event.type == pygame.QUIT: #quit the game
 				pygame.quit()
 				sys.exit()
-			if event.type == data.fire_event:
+			if event.type == data.fire_event: #every 500 ms
 				#construct a bullet object every fire_event and add to bullets array
-				bullets.append(ship.bullet(data.win,player_ship.head, player_ship)) 
-				pass
-		for bullet in bullets:
-			bullet.x += bullet.xv 
-			bullet.y += bullet.yv 
-			#pygame.draw.line(data.win, (255,255,255), (bullet.x, bullet.y), (bullet.x, bullet.y), width = 1)
-			data.win.set_at((int(bullet.x), int(bullet.y)), (255, 255, 255))
-			pygame.display.flip()
+				bullets.append(ship.bullet(data.win, player_ship)) 
+			if event.type == data.asteroid_event: #every 250 ms
+				#same process as bullets
+				max_size = randint(5, 20)
+				asteroids.append(asteroid(data.win, max_size))
 
+		for bullet in bullets:
+			bullet.move()	
+
+		for asteroid in asteroids:
+			asteroid.move()	
 
 		player_ship.turn(data.win) #captures the event loop
 		#time.delay pauses the program for a time in milliseconds, unsure if this and clock.tick are both needed
