@@ -1,10 +1,10 @@
 import math
-import random
 import pygame
 import ship
-import asteroid
+import asteroid as ast
 import data
 import tkinter as tk
+from random import randint
 from tkinter import messagebox
 
 
@@ -39,7 +39,7 @@ def main():
 			if event.type == data.asteroid_event: #every 250 ms
 				#same process as bullets
 				max_size = randint(5, 20)
-				asteroids.append(asteroid(data.win, max_size))
+				asteroids.append(ast.asteroid(max_size))
 
 		for bullet in bullets:
 			bullet.move()	

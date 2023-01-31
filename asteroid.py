@@ -1,4 +1,6 @@
 from random import randint
+import data
+import math
 
 import pygame
 class asteroid(object):
@@ -27,11 +29,11 @@ class asteroid(object):
 				self.origin[0] = randint(0, data.width)
 				self.origin[1] = data.height+20
 		self.points = [
-			(self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)),
-			(self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)),
-			(self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)),
-			(self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)),
-			(self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)),
+			[self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)],
+			[self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)],
+			[self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)],
+			[self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)],
+			[self.origin[0] + randint(-20, 20), self.origin[1] + randint(-20, 20)],
 		]
 		distance_x, distance_y = self.origin[0] - data.center[0], self.origin[1] - data.center[1]
 		self.direction = (180 / math.pi) * -math.atan2(distance_y, distance_x) #degrees
@@ -41,9 +43,9 @@ class asteroid(object):
 		self.yv = self.max_yv * math.sin(math.radians(self.direction) + 90)
 	def move(self):
 		for point in self.points:
-			point.x += asteroid.xv
-			point.y += asteroid.yv
-		pygame.draw.polygon(data.win,(255, 255, 255), asteroid.points)
+			point[0] += self.xv
+			point[1] += self.yv
+		pygame.draw.polygon(data.win,(255, 255, 255), self.points)
 		pygame.display.flip()
 
 		pass
